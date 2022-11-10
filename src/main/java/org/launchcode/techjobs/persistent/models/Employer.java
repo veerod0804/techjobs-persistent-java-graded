@@ -1,8 +1,12 @@
 package org.launchcode.techjobs.persistent.models;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Employer extends AbstractEntity {
@@ -11,6 +15,13 @@ public class Employer extends AbstractEntity {
     @NotBlank
     private String location;
 
+    // 3.1 Within Employer, add a private property jobs of type List<Job> and initialize it to an empty ArrayList
+    //3.2 Use the @OneToMany and @JoinColumn annotations on the jobs list in Employer to declare the relationship between data tables.
+    // Recall that this annotation needs a name parameter.
+
+    @OneToMany(mappedBy = "employer")
+    @JoinColumn(name="employer_id")
+    private final List<Job> jobs = new ArrayList<>();
 
     public Employer(String location) {
         this.location = location;
@@ -27,4 +38,7 @@ public class Employer extends AbstractEntity {
         this.location = location;
     }
 
+    public List<Job> getJobs() {
+        return jobs;
+    }
 }
